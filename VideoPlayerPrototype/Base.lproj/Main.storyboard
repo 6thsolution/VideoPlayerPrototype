@@ -130,6 +130,10 @@
         <scene sceneID="McO-aL-XAo">
             <objects>
                 <viewController id="olg-n7-p1n" customClass="VideoStoryVC" customModule="VideoPlayerPrototype" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dfl-Gd-WC4"/>
+                        <viewControllerLayoutGuide type="bottom" id="dtF-Ho-sjX"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kWa-GO-d4S">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

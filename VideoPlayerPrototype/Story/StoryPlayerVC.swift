@@ -16,6 +16,7 @@ protocol StoryPlayerDelegate: class {
 }
 
 class StoryPlayerVC: UIViewController {
+    @IBOutlet weak var progress: UIActivityIndicatorView!
     
     var videoIndex : Int! = 0
     var videoUrl: String!
@@ -34,6 +35,8 @@ class StoryPlayerVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         addPlaybackObserver()
+        
+        showProgress(true)
         
         if player != nil {
             // player exist, resume playback
@@ -67,11 +70,17 @@ class StoryPlayerVC: UIViewController {
             player?.pause()
         }
     }
+    
+    deinit {
+        player?.removeObserver(self, forKeyPath: "status")
+    }
 }
 
 extension StoryPlayerVC {
     func playVideoWithUrl(_ url: URL) {
         player = AVPlayer(url: url)
+        
+        player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(rawValue: 0), context: nil)
         
         let videoLayer = AVPlayerLayer(player: player)
         videoLayer.frame = self.view.bounds
@@ -86,6 +95,19 @@ extension StoryPlayerVC {
             delegate?.playNextVideo(currentindex: videoIndex)
         }
     }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if (player?.isEqual(object))! && keyPath == "status" {
+            if player?.status == AVPlayerStatus.readyToPlay {
+                print("readyToPlay")
+                showProgress(false)
+            } else if(player?.status == AVPlayerStatus.failed) {
+                print("failed")
+            }
+        }
+    }
+    
+    
 }
 
 extension StoryPlayerVC {
@@ -98,5 +120,15 @@ extension StoryPlayerVC {
     
     func removePlaybackObserver() {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func showProgress(_ show: Bool) {
+        progress.isHidden = !show
+
+        if show == true {
+            progress.startAnimating()
+        } else {
+            progress.stopAnimating()
+        }
     }
 }
