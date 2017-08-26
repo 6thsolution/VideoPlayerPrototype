@@ -2,7 +2,7 @@
 //  VideoPlayerPrototypeUITests.swift
 //  VideoPlayerPrototypeUITests
 //
-//  Created by papyrus on 8/26/17.
+//  Created by Mehdi Sohrabi (mehdok@gmail.com) on 8/26/17.
 //  Copyright © 2017 SixthSolution. All rights reserved.
 //
 
